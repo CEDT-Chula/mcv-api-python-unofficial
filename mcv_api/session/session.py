@@ -29,9 +29,10 @@ class ChulaLogin(BaseSession):
             soup = bs.BeautifulSoup(r.text, 'html.parser')
             # find redirector of CU login
             table = soup.find('table')
-            redirector = table.find_all('tr')[1].find_all('td')[-1].find('a')['href']
-            self.session.get(redirector)
-            self.__validate_login()
+            if table != None:
+                redirector = table.find_all('tr')[1].find_all('td')[-1].find('a')['href']
+                self.session.get(redirector)
+                self.__validate_login()
         except Exception as e:
             raise ValueError('Login failed Highly likely due to invalid username or password')
     
